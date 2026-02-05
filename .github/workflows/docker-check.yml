@@ -15,7 +15,21 @@ jobs:
       - name: Build image
         run: docker build -t devops-service-check .
 
-      - name: Run dry-run (expected exit code 1)
+      - name: Test A (OK): detect running process in another container
+        run: |
+          # Start a container that runs "sleep"
+          docker run -d --name sleeper ubuntu:22.04 sleep 9999
+
+          # Run our tool container with access to the host process namespace of "sleeper"
+          # so pgrep can see the sleep process
+          docker run --rm --pid=container:sleeper \
+            -e SERVICE=sleep \
+            devops-service-check
+
+          # Cleanup
+          docker rm -f sleeper
+
+      - name: Test B (KO expected): dry-run when process is missing
         run: |
           set +e
           docker run --rm \
