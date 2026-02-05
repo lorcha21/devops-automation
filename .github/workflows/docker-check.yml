@@ -1,8 +1,8 @@
 name: Docker service check (dry-run)
 
-on:
+"on":
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
 
 jobs:
@@ -15,27 +15,17 @@ jobs:
       - name: Build image
         run: docker build -t devops-service-check .
 
-      - name: Test A (OK): detect running process in another container
+      - name: Test A (OK) - detect running process in another container
         run: |
-          # Start a container that runs "sleep"
+          set -e
           docker run -d --name sleeper ubuntu:22.04 sleep 9999
-
-          # Run our tool container with access to the host process namespace of "sleeper"
-          # so pgrep can see the sleep process
-          docker run --rm --pid=container:sleeper \
-            -e SERVICE=sleep \
-            devops-service-check
-
-          # Cleanup
+          docker run --rm --pid=container:sleeper -e SERVICE=sleep devops-service-check
           docker rm -f sleeper
 
-      - name: Test B (KO expected): dry-run when process is missing
+      - name: Test B (KO expected) - dry-run when process is missing
         run: |
           set +e
-          docker run --rm \
-            -e SERVICE=sleep \
-            -e DRY_RUN=true \
-            devops-service-check
+          docker run --rm -e SERVICE=sleep -e DRY_RUN=true devops-service-check
           CODE=$?
           echo "Exit code was: $CODE"
           if [ "$CODE" -ne 1 ]; then
