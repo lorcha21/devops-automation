@@ -20,13 +20,13 @@ jobs:
         run: |
           set -e
           docker run -d --name sleeper ubuntu:22.04 sleep 9999
-          docker run --rm --pid=container:sleeper -e SERVICE=sleep devops-service-check
+          docker run --rm --pid=container:sleeper devops-service-check -s sleep
           docker rm -f sleeper
 
       - name: Test B (KO expected) - dry-run when process is missing
         run: |
           set +e
-          docker run --rm -e SERVICE=sleep -e DRY_RUN=true devops-service-check
+          docker run --rm devops-service-check -s sleep --dry-run
           CODE=$?
           echo "Exit code was: $CODE"
           if [ "$CODE" -ne 1 ]; then
