@@ -1,6 +1,5 @@
 ![CI](../../actions/workflows/docker-check.yml/badge.svg)
 
-# Devops Automation
 # DevOps Automation
 
 Ce dépôt contient des scripts d'automatisation orientés **Run / MCO**.
