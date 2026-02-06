@@ -1,4 +1,10 @@
 ![CI](../../actions/workflows/docker-check.yml/badge.svg)
+## Usage (Local)
+
+Build nothing needed, just run:
+
+```bash
+./scripts/check_service.sh -s sshd --dry-run
 
 # DevOps Automation
 
