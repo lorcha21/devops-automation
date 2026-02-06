@@ -7,7 +7,7 @@ test-local:
 	./scripts/check_service.sh -s sshd --dry-run
 
 test-docker:
-	@docker run --rm -e SERVICE=sleep -e DRY_RUN=true $(IMAGE); \
+	@docker run --rm $(IMAGE) -s sleep --dry-run; \
 	CODE=$$?; \
 	echo "Exit code was: $$CODE"; \
 	test "$$CODE" -eq 1
