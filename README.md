@@ -1,37 +1,35 @@
+cat > README.md <<'EOF'
 ![CI](../../actions/workflows/docker-check.yml/badge.svg)
-## Usage (Local)
 
-Build nothing needed, just run:
+# DevOps Automation — Service Health Check
 
-```bash
-./scripts/check_service.sh -s sshd --dry-run
+A small Bash tool to check if a service/process is running, log the result, and optionally restart it (systemd only).
 
-# DevOps Automation
-
-Ce dépôt contient des scripts d'automatisation orientés **Run / MCO**.
-L'objectif est de fournir des outils simples, robustes et réutilisables pour
-la supervision et la gestion de services Linux.
+This project is designed to work in both environments:
+- **Host/VM mode** (systemd available)
+- **Container mode** (no systemd)
 
 ---
 
-## 📁 Structure du projet
+## Features
 
-
----
-
-## 🔧 Script : check_service.sh
-
-Script Bash permettant de :
-- vérifier l'état d'un service systemd
-- écrire des logs horodatés
-- redémarrer automatiquement le service si nécessaire
-- fonctionner en mode **dry-run**
-- retourner des **codes de sortie** exploitables (cron, CI, monitoring)
+- Check a service status (systemd mode)
+- Check a process presence (container mode)
+- Timestamped logs
+- Dry-run mode
+- Works in Docker
+- CI validated with GitHub Actions
+- Makefile helpers
 
 ---
 
-## 🚀 Utilisation
+## Repository structure
 
-### Vérifier un service
-```bash
-./scripts/check_service.sh -s ssh
+```text
+scripts/
+  check_service.sh
+.github/workflows/
+  docker-check.yml
+Dockerfile
+Makefile
+README.md
